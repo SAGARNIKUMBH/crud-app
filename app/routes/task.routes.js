@@ -5,7 +5,9 @@ module.exports = (app) => {
 
   app.get("/tasks", tasks.findAll);
 
-  app.get("/tasks/:taskId", tasks.findOne);
+  app.get('/getTodoList/:page/:limit', tasks.getTodoList);
+
+  app.get("/tasks/:taskId", tasks.findOne); 
 
   app.patch("/tasks/:taskId", tasks.update);
 

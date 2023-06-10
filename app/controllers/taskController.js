@@ -35,6 +35,26 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.getTodoList = async(req, res)=>{
+  try {
+    const page = parseInt(req.params.page) || 1; 
+    const limit = parseInt(req.params.limit) || 5; 
+
+    const skip = (page - 1) * limit;
+    const total = await Task.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    const tasks = await Task.find().skip(skip).limit(limit);
+
+    res.json({
+      tasks,
+      totalPages,
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 exports.findOne = (req, res) => {
   Task.findById(req.params.taskId)
     .then((task) => {
